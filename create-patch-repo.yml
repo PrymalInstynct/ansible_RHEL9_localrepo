@@ -3,4 +3,4 @@
   hosts: patching
   become: true
   roles:
-    - { role: rhel9_localrepo }
+    - {role: rhel9_localrepo}
