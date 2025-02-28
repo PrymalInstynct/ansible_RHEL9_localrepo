@@ -1,0 +1,26 @@
+---
+- name: Enable CodeReady Builder repository using RHSM
+  community.general.rhsm_repository:
+    name: codeready-builder-for-rhel-9-x86_64-rpms
+    state: enabled
+
+- name: Enable Docker Community Edition Repo
+  ansible.builtin.copy:
+    src: https://download.docker.com/linux/rhel/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: Install required packages
+  ansible.builtin.dnf:
+    name:
+      - httpd
+      - rsync
+      - yum-utils
+      - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+    update_cache: true
+    state: present
+
+- name: Enable and start httpd
+  ansible.builtin.systemd:
+    name: httpd
+    enabled: yes
+    state: started

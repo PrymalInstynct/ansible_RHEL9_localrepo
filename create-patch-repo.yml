@@ -1,0 +1,6 @@
+---
+- name: Create a Local RHEL 9 Patching Repository Server
+  hosts: patching
+  become: true
+  roles:
+    - { role: rhel9_localrepo }

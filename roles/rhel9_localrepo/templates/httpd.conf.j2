@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+    ServerAdmin root@{{ ansible_fqdn }}
+    DocumentRoot "/var/www/html"
+    <Directory "/var/www/html">
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+    ErrorLog "/var/log/httpd/repo-error.log"
+    CustomLog "/var/log/httpd/repo-access.log" combined
+</VirtualHost>

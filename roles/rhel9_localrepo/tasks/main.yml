@@ -1,0 +1,15 @@
+---
+- name: Include tasks to prepare the server
+  ansible.builtin.import_tasks: prelim.yml
+
+- name: Sync repositories
+  ansible.builtin.import_tasks: sync_repos.yml
+
+- name: Configure HTTP server
+  ansible.builtin.import_tasks: setup_httpd.yml
+
+- name: Configure repository files
+  ansible.builtin.import_tasks: configure_repos.yml
+
+- name: Schedule repository sync
+  ansible.builtin.import_tasks: schedule_cron.yml

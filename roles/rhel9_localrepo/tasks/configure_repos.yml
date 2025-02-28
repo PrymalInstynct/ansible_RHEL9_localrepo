@@ -1,0 +1,15 @@
+---
+- name: Configure BaseOS repo file
+  ansible.builtin.template:
+    src: rhel9_baseos.repo.j2
+    dest: /etc/yum.repos.d/rhel9_baseos.repo
+
+- name: Configure AppStream repo file
+  ansible.builtin.template:
+    src: rhel9_appstream.repo.j2
+    dest: /etc/yum.repos.d/rhel9_appstream.repo
+
+- name: Configure EPEL repo file
+  ansible.builtin.template:
+    src: epel9.repo.j2
+    dest: /etc/yum.repos.d/epel9.repo

@@ -1,0 +1,40 @@
+---
+- name: Schedule BaseOS repository sync
+  ansible.builtin.cron:
+    name: "Sync RHEL 9 BaseOS repository"
+    job: "reposync -p /var/www/html/rhel/9/BaseOS --downloadcomps --download-metadata --repoid=rhel-9-for-x86_64-baseos-rpms"
+    minute: "0"
+    hour: "2"
+    day: "0"
+
+- name: Schedule AppStream repository sync
+  ansible.builtin.cron:
+    name: "Sync RHEL 9 AppStream repository"
+    job: "reposync -p /var/www/html/rhel/9/AppStream --downloadcomps --download-metadata --repoid=rhel-9-for-x86_64-appstream-rpms"
+    minute: "0"
+    hour: "2"
+    day: "1"
+
+- name: Schedule CRB repository sync
+  ansible.builtin.cron:
+    name: "Sync RHEL 9 CRB repository"
+    job: "reposync -p /var/www/html/rhel/9/CRB --downloadcomps --download-metadata --repoid=codeready-builder-for-rhel-9-x86_64-rpms"
+    minute: "0"
+    hour: "2"
+    day: "2"
+
+- name: Schedule EPEL repository sync
+  ansible.builtin.cron:
+    name: "Sync EPEL 9 repository"
+    job: "reposync -p /var/www/html/rhel/9/EPEL --downloadcomps --download-metadata --repoid=epel"
+    minute: "0"
+    hour: "2"
+    day: "3"
+
+- name: Schedule Docker repository sync
+  ansible.builtin.cron:
+    name: "Sync Docker CE repository"
+    job: "reposync -p /var/www/html/rhel/9/Docker --downloadcomps --download-metadata --repoid=docker-ce-stable"
+    minute: "0"
+    hour: "2"
+    day: "4"

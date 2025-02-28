@@ -1,0 +1,38 @@
+- name: Sync BaseOS repository
+  ansible.builtin.command: reposync -p /var/www/html/rhel/9/BaseOS --downloadcomps --download-metadata --repoid=rhel-9-for-x86_64-baseos-rpms
+
+- name: Sync AppStream repository
+  ansible.builtin.command: reposync -p /var/www/html/rhel/9/AppStream --downloadcomps --download-metadata --repoid=rhel-9-for-x86_64-appstream-rpms
+
+- name: Sync CodeReady Builder repository
+  ansible.builtin.command: reposync -p /var/www/html/rhel/9/CRB --downloadcomps --download-metadata --repoid=codeready-builder-for-rhel-9-x86_64-rpms
+
+- name: Sync EPEL repository
+  ansible.builtin.command: reposync -p /var/www/html/rhel/9/EPEL --downloadcomps --download-metadata --repoid=epel
+
+- name: Sync Docker CE repository
+  ansible.builtin.command: reposync -p /var/www/html/rhel/9/Docker --downloadcomps --download-metadata --repoid=docker-ce-stable
+
+- name: Ensure GPG key directory exists
+  ansible.builtin.file:
+    path: /var/www/html/rhel/9/keys
+    state: directory
+    mode: '0755'
+
+- name: Download RHEL 9 GPG keys
+  ansible.builtin.get_url:
+    url: https://www.redhat.com/security/data/gpg/RPM-GPG-KEY-redhat-release
+    dest: /var/www/html/rhel/9/keys/RPM-GPG-KEY-redhat-release
+    mode: '0644'
+
+- name: Download EPEL 9 GPG keys
+  ansible.builtin.get_url:
+    url: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9
+    dest: /var/www/html/rhel/9/keys/RPM-GPG-KEY-EPEL-9
+    mode: '0644'
+
+- name: Download Docker GPG keys
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/rhel/gpg
+    dest: /var/www/html/rhel/9/keys/RPM-GPG-KEY-DOCKER
+    mode: '0644'
