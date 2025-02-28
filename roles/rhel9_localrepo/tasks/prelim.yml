@@ -15,6 +15,7 @@
       - httpd
       - rsync
       - yum-utils
+      - policycoreutils-python-utils
       - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     update_cache: true
     state: present
