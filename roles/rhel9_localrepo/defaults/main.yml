@@ -1,1 +1,24 @@
 ---
+repo_base_path: /var/www/html/rhel/9
+
+repositories:
+  - name: BaseOS
+    repoid: ehel-9-for-x86_64-baseos-rpms
+    path: "{{ repo_base_path }}/BaseOS"
+  - name: AppStream
+    repoid: rhel-9-for-x86_64-appstream-rpms
+    path: "{{ repo_base_path }}/AppStream"
+  - name: CRB
+    repoid: codeready-builder-for-rhel-9-x86_64-rpms
+    path: "{{ repo_base_path }}/CRB"
+  - name: EPEL
+    repoid: epel
+    path: "{{ repo_base_path }}/EPEL"
+  - name: Docker
+    repoid: docker-ce-stable
+    path: "{{ repo_base_path }}/Docker"
+
+gpg_keys:
+  - { name: redhat, url: https://www.redhat.com/security/data/gpg/RPM-GPG-KEY-redhat-release, dest: RPM-GPG-KEY-redhat-release }
+  - { name: epel, url: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9, dest: RPM-GPG-KEY-EPEL-9 }
+  - { name: docker, url: https://download.docker.com/linux/rhel/gpg, dest: RPM-GPG-KEY-DOCKER }

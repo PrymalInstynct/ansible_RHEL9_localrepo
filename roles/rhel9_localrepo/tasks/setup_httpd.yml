@@ -9,6 +9,7 @@
   ansible.posix.firewalld:
     port: "80/tcp"
     permanent: true
+    immediate: true
     state: enabled
 
 - name: Configure httpd SELinux
