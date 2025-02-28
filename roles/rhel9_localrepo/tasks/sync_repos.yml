@@ -1,17 +1,27 @@
 - name: Sync BaseOS repository
   ansible.builtin.command: reposync -p /var/www/html/rhel/9/BaseOS --downloadcomps --download-metadata --repoid=rhel-9-for-x86_64-baseos-rpms
+  register: reposync_baseos
+  failed_when: reposync_baseos.rc != 0
 
 - name: Sync AppStream repository
   ansible.builtin.command: reposync -p /var/www/html/rhel/9/AppStream --downloadcomps --download-metadata --repoid=rhel-9-for-x86_64-appstream-rpms
+  register: reposync_appstream
+  failed_when: reposync_appstream.rc != 0
 
 - name: Sync CodeReady Builder repository
   ansible.builtin.command: reposync -p /var/www/html/rhel/9/CRB --downloadcomps --download-metadata --repoid=codeready-builder-for-rhel-9-x86_64-rpms
+  register: reposync_crb
+  failed_when: reposync_crb.rc != 0
 
 - name: Sync EPEL repository
   ansible.builtin.command: reposync -p /var/www/html/rhel/9/EPEL --downloadcomps --download-metadata --repoid=epel
+  register: reposync_epel
+  failed_when: reposync_epel.rc != 0
 
 - name: Sync Docker CE repository
   ansible.builtin.command: reposync -p /var/www/html/rhel/9/Docker --downloadcomps --download-metadata --repoid=docker-ce-stable
+  register: reposync_docker
+  failed_when: reposync_docker.rc != 0
 
 - name: Ensure GPG key directory exists
   ansible.builtin.file:
