@@ -2,6 +2,11 @@
 extends: relaxed
 
 rules:
-  line-length:
-    max: 250
-    level: warning
+    line-length:
+        max: 250
+        level: warning
+    comments:
+        min-spaces-from-content: 1
+    octal-values:
+        forbid-implicit-octal: true
+        forbid-explicit-octal: true
