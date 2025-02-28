@@ -4,3 +4,21 @@
     src: httpd.conf.j2
     dest: /etc/httpd/conf.d/localrepo.conf
   notify: Restart httpd
+
+- name: Open firewall for HTTP
+  ansible.posix.firewalld:
+    port: "80/tcp"
+    permanent: true
+    state: enabled
+
+- name: Configure httpd SELinux
+  when: ansible_selinux.status == 'enabled'
+
+  block:
+    - name: Set SELinux context for repository directory
+      ansible.posix.semanage_fcontext:
+        target: "/var/www/html(/.*)?"
+        ftype: httpd_sys_content_t
+
+    - name: Restore SELinux context
+      ansible.builtin.command: restorecon -Rv /var/www/html\
