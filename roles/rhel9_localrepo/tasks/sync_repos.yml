@@ -1,5 +1,5 @@
 ---
-- name: Sync {{ repo_sync.name }} repository
+- name: 'Sync {{ repo_sync.name }} repository'
   ansible.builtin.command: reposync -p "{{ repo_sync.path }}" --downloadcomps --download-metadata --repoid="{{ repo_sync.repoid }}"
   register: reposync_result
   failed_when: reposync_result.rc != 0
@@ -11,14 +11,14 @@
 
 - name: Ensure GPG key directory exists
   ansible.builtin.file:
-    path: /var/www/html/rhel/9/keys
+    path: /var/www/html/keys
     state: directory
     mode: '0755'
 
 - name: Download GPG keys
   ansible.builtin.get_url:
     url: "{{ key.url }}"
-    dest: /var/www/html/rhel/9/keys/{{ key.dest }}"
+    dest: /var/www/html/keys/{{ key.dest }}"
     mode: '0644'
   loop: "{{ gpg_keys }}"
   loop_control:

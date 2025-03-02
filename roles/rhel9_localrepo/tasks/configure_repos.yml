@@ -1,15 +1,33 @@
 ---
+- name: Create Repo location in /var/www/html
+  ansible.builtin.file:
+    path: /var/www/html/repo_files
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Configure BaseOS repo file
   ansible.builtin.template:
     src: rhel9_baseos.repo.j2
-    dest: /etc/yum.repos.d/rhel9_baseos.repo
+    dest: /var/www/html/repo_files/rhel9_baseos.repo
 
 - name: Configure AppStream repo file
   ansible.builtin.template:
     src: rhel9_appstream.repo.j2
-    dest: /etc/yum.repos.d/rhel9_appstream.repo
+    dest: /var/www/html/repo_files/rhel9_appstream.repo
+
+- name: Configure CodeReady Builder repo file
+  ansible.builtin.template:
+    src: rhel9_crb.repo.j2
+    dest: /var/www/html/repo_files/rhel9_crb.repo
 
 - name: Configure EPEL repo file
   ansible.builtin.template:
     src: epel9.repo.j2
-    dest: /etc/yum.repos.d/epel9.repo
+    dest: /var/www/html/repo_files/epel9.repo
+
+- name: Configure Docker CE repo file
+  ansible.builtin.template:
+    src: docker-ce.repo.j2
+    dest: /var/www/html/repo_files/docker-ce.repo

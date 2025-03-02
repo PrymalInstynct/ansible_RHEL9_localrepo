@@ -1,4 +1,11 @@
 ---
+- name: Disable Apache welcome page
+  ansible.builtin.replace:
+    path: /etc/httpd/conf.d/welcome.conf
+    regexp: '^(?!#)(.*)$'
+    replace: '# \1'
+  notify: Restart httpd
+
 - name: Deploy httpd configuration
   ansible.builtin.template:
     src: httpd.conf.j2
@@ -17,9 +24,9 @@
 
   block:
     - name: Set SELinux context for repository directory
-      ansible.posix.semanage_fcontext:
+      community.general.sefcontext:
         target: "/var/www/html(/.*)?"
-        ftype: httpd_sys_content_t
+        setype: httpd_sys_content_t
 
     - name: Restore SELinux context
-      ansible.builtin.command: restorecon -Rv /var/www/html\
+      ansible.builtin.command: restorecon -Rv /var/www/html

@@ -1,14 +1,8 @@
 ---
-- name: Check if CodeReady Builder repository is enabled
-  ansible.builtin.command: "subscription-manager repos --list-enabled | grep codeready-builder-for-rhel-9-x86_64-rpms"
-  register: crb_repo_status
-  ignore_errors: true
-
 - name: Enable CodeReady Builder repository using RHSM
   community.general.rhsm_repository:
     name: codeready-builder-for-rhel-9-x86_64-rpms
     state: enabled
-  when: crb_repo_status.rc != 0
 
 - name: Get Docker CE Repo File checksum
   ansible.builtin.shell:
@@ -21,11 +15,16 @@
     docker_repo_checksum: '{{ docker_repo_checksum_result.stdout }}'
 
 - name: Enable Docker Community Edition Repo
-  ansible.builtin.copy:
-    src: https://download.docker.com/linux/rhel/docker-ce.repo
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/rhel/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
-    remote_src: true
+    mode: '0444'
     checksum: sha256:{{ docker_repo_checksum }}
+
+- name: Import EPEL GPG key
+  ansible.builtin.rpm_key:
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9
+    state: present
 
 - name: Install required packages
   ansible.builtin.dnf:
@@ -37,9 +36,3 @@
       - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     update_cache: true
     state: present
-
-- name: Enable and start httpd
-  ansible.builtin.systemd:
-    name: httpd
-    enabled: true
-    state: started

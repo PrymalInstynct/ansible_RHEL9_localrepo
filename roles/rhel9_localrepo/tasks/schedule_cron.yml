@@ -1,11 +1,11 @@
 ---
-- name: Schedule {{ repo_cron.name }} repository sync
+- name: 'Schedule {{ repo_cron.name }} repository sync'
   ansible.builtin.cron:
     name: "Sync RHEL 9 {{ repo_cron.name }} repository"
     job: "reposync -p {{ repo_cron.path }} --downloadcomps --download-metadata --repoid={{ repo_cron.repoid }}"
     minute: "0"
     hour: "2"
-    day: "{{ loop.index0 }}"
+    weekday: "{{ repo_cron.weekday }}"
   loop: "{{ repositories }}"
   loop_control:
     loop_var: repo_cron
